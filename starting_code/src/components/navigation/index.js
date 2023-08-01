@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { getPetTypes } from '../../api/petfinder';
-import Logo from '../../assets/logo.svg';
-import Search from '../search';
+import React, { useEffect, useState } from 'react'
+import { getPetTypes } from '../../api/petfinder'
+import Logo from '../../assets/logo.svg'
+import Search from '../search'
 
 // Import NavLink
+import { NavLink } from 'react-router-dom'
 
 const Navigation = () => {
-  const [petTypes, setPetTypes] = useState([]);
+  const [petTypes, setPetTypes] = useState([])
 
   useEffect(() => {
     async function getPetTypesData() {
-      const { types } = await getPetTypes();
-      setPetTypes(types);
+      const { types } = await getPetTypes()
+      setPetTypes(types)
     }
 
-    getPetTypesData();
-  }, []);
+    getPetTypesData()
+  }, [])
 
   return (
     <nav>
@@ -26,27 +27,28 @@ const Navigation = () => {
       <ul className="nav-links">
         <li key={'all'}>
           {/* These links should be NavLink component and add a special active class name if its an active link */}
-          <a href="/"
-            className='nav-link'
+          <NavLink to="/"
+            className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
           >
             All Pets
-          </a>
+          </NavLink>
         </li>
         {petTypes
           ? petTypes.map((type) => (
-              <li key={type.name}>
-                {/* These links should be NavLink component and add a special active class name if its an active link */}
-                <a href={`/${type._links.self.href.split('/').pop()}`}
-                  key={type.name}
-                  className='nav-link'               >
-                  {type.name}s
-                </a>{' '}
-              </li>
-            ))
+            <li key={type.name}>
+              {/* These links should be NavLink component and add a special active class name if its an active link */}
+              <NavLink to={`/${type._links.self.href.split('/').pop()}`}
+                key={type.name}
+                className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+              >
+                {type.name}s
+              </NavLink>{' '}
+            </li>
+          ))
           : 'Loading...'}
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation
