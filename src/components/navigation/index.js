@@ -12,6 +12,7 @@ const Navigation = () => {
   useEffect(() => {
     async function getPetTypesData() {
       const { types } = await getPetTypes()
+      // console.log(types[0].coats.length)
       setPetTypes(types)
     }
 
